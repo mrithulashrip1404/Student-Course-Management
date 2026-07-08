@@ -29,43 +29,26 @@ Technology Stack
 
 System Modules
 
-Student Course Management and Learning Progress Tracking System
-│
-├── Module 1: User Authentication
-│   ├── Student Registration
-│   ├── Student Login
-│   └── Password Recovery
-│
-├── Module 2: Course Management
-│   ├── Add Course
-│   ├── Update Course
-│   ├── Delete Course
-│   └── View Course Details
-│
-├── Module 3: Course Enrollment
-│   ├── Browse Courses
-│   ├── Search Courses
-│   ├── Enroll in Courses
-│   └── View Enrolled Courses
-│
-├── Module 4: Learning Management
-│   ├── Learning Materials
-│   ├── Course Modules
-│   └── Module Completion
-│
-├── Module 5: Progress Tracking
-│   ├── Progress Percentage
-│   ├── Completed Modules
-│   └── Pending Modules
-│
-├── Module 6: Dashboard
-│   ├── Student Dashboard
-│   └── Administrator Dashboard
-│
-└── Module 7: Notifications
-    ├── Course Updates
-    ├── Enrollment Confirmation
-    └── Assignment Reminders
+Module 1 – User Authentication
+Manages user registration, login, password recovery, and secure authentication.
+
+Module 2 – Course Management
+Allows administrators to create, update, delete, and organize course information.
+
+Module 3 – Course Enrollment
+Enables students to browse available courses and complete enrollments.
+
+Module 4 – Learning Management
+Provides learning materials and tracks module completion.
+
+Module 5 – Progress Tracking
+Displays course progress, completed modules, and completion percentage.
+
+Module 6 – Dashboard
+Provides personalized dashboards with academic statistics and reports.
+
+Module 7 – Notifications
+Keeps users informed through reminders, confirmations, and course announcements.
 
 Future Scope
 
