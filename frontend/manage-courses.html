@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Manage Courses | Student Course Management System</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+    <header>
+
+        <div class="logo">
+            <h2>SCM System</h2>
+        </div>
+
+        <nav>
+
+            <ul>
+
+                <li><a href="admin-dashboard.html">Dashboard</a></li>
+
+                <li><a href="manage-courses.html" class="active">Courses</a></li>
+
+                <li><a href="manage-students.html">Students</a></li>
+
+                <li><a href="notifications.html">Notifications</a></li>
+
+                <li><a href="index.html">Logout</a></li>
+
+            </ul>
+
+        </nav>
+
+    </header>
+
+    <section class="hero">
+
+        <div class="hero-content">
+
+            <h1>Manage Courses</h1>
+
+            <p>
+                Create, update, view, and remove courses offered by the institution.
+            </p>
+
+        </div>
+
+    </section>
+
+    <section class="form-section">
+
+        <div class="form-container">
+
+            <h2>Add New Course</h2>
+
+            <form>
+
+                <div class="input-group">
+
+                    <label>Course Name</label>
+
+                    <input type="text" placeholder="Enter course name" required>
+
+                </div>
+
+                <div class="input-group">
+
+                    <label>Instructor</label>
+
+                    <input type="text" placeholder="Enter instructor name" required>
+
+                </div>
+
+                <div class="input-group">
+
+                    <label>Duration</label>
+
+                    <input type="text" placeholder="Example: 12 Weeks" required>
+
+                </div>
+
+                <div class="input-group">
+
+                    <label>Category</label>
+
+                    <select required>
+
+                        <option>Select Category</option>
+
+                        <option>Web Development</option>
+
+                        <option>Artificial Intelligence</option>
+
+                        <option>Programming</option>
+
+                        <option>Database</option>
+
+                        <option>Cloud Computing</option>
+
+                    </select>
+
+                </div>
+
+                <div class="input-group">
+
+                    <label>Description</label>
+
+                    <textarea rows="4" placeholder="Enter course description"></textarea>
+
+                </div>
+
+                <button class="btn">
+
+                    Add Course
+
+                </button>
+
+            </form>
+
+        </div>
+
+    </section>
+
+    <section class="about">
+
+        <h2>Available Courses</h2>
+
+        <table>
+
+            <tr>
+
+                <th>Course ID</th>
+
+                <th>Course Name</th>
+
+                <th>Instructor</th>
+
+                <th>Duration</th>
+
+                <th>Actions</th>
+
+            </tr>
+
+            <tr>
+
+                <td>C101</td>
+
+                <td>Full Stack Web Development</td>
+
+                <td>Dr. John Smith</td>
+
+                <td>12 Weeks</td>
+
+                <td>
+
+                    <a href="course-details.html">View</a> |
+
+                    <a href="#">Edit</a> |
+
+                    <a href="#">Delete</a>
+
+                </td>
+
+            </tr>
+
+            <tr>
+
+                <td>C102</td>
+
+                <td>Artificial Intelligence</td>
+
+                <td>Dr. Emily Johnson</td>
+
+                <td>10 Weeks</td>
+
+                <td>
+
+                    <a href="course-details.html">View</a> |
+
+                    <a href="#">Edit</a> |
+
+                    <a href="#">Delete</a>
+
+                </td>
+
+            </tr>
+
+            <tr>
+
+                <td>C103</td>
+
+                <td>Python Programming</td>
+
+                <td>Mr. David Lee</td>
+
+                <td>8 Weeks</td>
+
+                <td>
+
+                    <a href="course-details.html">View</a> |
+
+                    <a href="#">Edit</a> |
+
+                    <a href="#">Delete</a>
+
+                </td>
+
+            </tr>
+
+        </table>
+
+    </section>
+
+</body>
+
+</html>
