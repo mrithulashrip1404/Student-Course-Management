@@ -1,0 +1,213 @@
+/* ==========================
+   General Styling
+========================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    background: #f4f6f9;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* ==========================
+   Header
+========================== */
+
+header {
+    background: #0d6efd;
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+header h1 {
+    margin-bottom: 10px;
+}
+
+/* ==========================
+   Navigation
+========================== */
+
+nav {
+    margin-top: 10px;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    margin: 0 12px;
+    font-weight: bold;
+}
+
+nav a:hover {
+    text-decoration: underline;
+}
+
+/* ==========================
+   Sections
+========================== */
+
+section {
+    background: white;
+    width: 80%;
+    margin: 25px auto;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+}
+
+section h2 {
+    margin-bottom: 15px;
+    color: #0d6efd;
+}
+
+section p {
+    margin-bottom: 20px;
+}
+
+section ul {
+    margin-left: 20px;
+}
+
+section li {
+    margin-bottom: 10px;
+}
+
+/* ==========================
+   Buttons
+========================== */
+
+button {
+    background: #0d6efd;
+    color: white;
+    border: none;
+    padding: 10px 25px;
+    margin: 10px 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background: #084298;
+}
+
+/* ==========================
+   Forms
+========================== */
+
+form {
+    width: 400px;
+    margin: 40px auto;
+    background: white;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 12px rgba(0,0,0,0.15);
+}
+
+form label {
+    font-weight: bold;
+}
+
+form input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 6px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+form button {
+    width: 100%;
+}
+
+/* ==========================
+   Dashboard
+========================== */
+
+h1,
+h2,
+h3 {
+    text-align: center;
+    margin: 20px;
+}
+
+ul {
+    width: 60%;
+    margin: auto;
+}
+
+progress {
+    width: 60%;
+    height: 25px;
+    display: block;
+    margin: 20px auto;
+}
+
+p {
+    text-align: center;
+}
+
+hr {
+    margin: 25px 0;
+}
+
+/* ==========================
+   Footer
+========================== */
+
+footer {
+    background: #0d6efd;
+    color: white;
+    text-align: center;
+    padding: 15px;
+    margin-top: 40px;
+}
+
+/* ==========================
+   Links
+========================== */
+
+a {
+    color: #0d6efd;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* ==========================
+   Responsive Design
+========================== */
+
+@media (max-width: 768px) {
+
+    section {
+        width: 95%;
+    }
+
+    form {
+        width: 90%;
+    }
+
+    ul {
+        width: 90%;
+    }
+
+    progress {
+        width: 90%;
+    }
+
+    nav a {
+        display: block;
+        margin: 10px 0;
+    }
+}
