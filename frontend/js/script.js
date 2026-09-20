@@ -1,14 +1,10 @@
-// ===========================
-// Student Course Management System
-// script.js
-// ===========================
+import { validateRequiredFields } from "./validation.js";
+import { login, register, logout } from "./auth.js";
+import { showMessage, confirmAction } from "./ui.js";
 
-// Execute after page loads
 document.addEventListener("DOMContentLoaded", function () {
 
-    // ---------------------------
     // Registration Form Validation
-    // ---------------------------
     const registerForm = document.querySelector("#registerForm");
 
     if (registerForm) {
@@ -19,15 +15,16 @@ document.addEventListener("DOMContentLoaded", function () {
             const email = document.getElementById("email").value.trim();
             const password = document.getElementById("password").value.trim();
 
-            if (name === "" || email === "" || password === "") {
+            if (!validateRequiredFields([name, email, password])) {
 
-                alert("Please fill all the fields.");
+                showMessage("Please fill all the fields.");
                 event.preventDefault();
 
-            }
-            else {
+            } else {
 
-                alert("Registration Successful!");
+                register(name, email);
+
+                showMessage("Registration Successful!");
 
             }
 
@@ -35,9 +32,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     }
 
-    // ---------------------------
+
     // Student Login Validation
-    // ---------------------------
     const studentLogin = document.querySelector("#studentLogin");
 
     if (studentLogin) {
@@ -47,15 +43,16 @@ document.addEventListener("DOMContentLoaded", function () {
             const email = document.getElementById("email").value.trim();
             const password = document.getElementById("password").value.trim();
 
-            if (email === "" || password === "") {
+            if (!validateRequiredFields([email, password])) {
 
-                alert("Enter Email and Password.");
+                showMessage("Enter Email and Password.");
                 event.preventDefault();
 
-            }
-            else {
+            } else {
 
-                alert("Login Successful!");
+                login(email);
+
+                showMessage("Login Successful!");
 
             }
 
@@ -63,9 +60,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     }
 
-    // ---------------------------
+
     // Admin Login Validation
-    // ---------------------------
     const adminLogin = document.querySelector("#adminLogin");
 
     if (adminLogin) {
@@ -75,15 +71,16 @@ document.addEventListener("DOMContentLoaded", function () {
             const email = document.getElementById("email").value.trim();
             const password = document.getElementById("password").value.trim();
 
-            if (email === "" || password === "") {
+            if (!validateRequiredFields([email, password])) {
 
-                alert("Enter Administrator Credentials.");
+                showMessage("Enter Administrator Credentials.");
                 event.preventDefault();
 
-            }
-            else {
+            } else {
 
-                alert("Administrator Login Successful!");
+                login(email);
+
+                showMessage("Administrator Login Successful!");
 
             }
 
@@ -91,35 +88,39 @@ document.addEventListener("DOMContentLoaded", function () {
 
     }
 
-    // ---------------------------
+
     // Forgot Password
-    // ---------------------------
     const forgotForm = document.querySelector("#forgotForm");
 
     if (forgotForm) {
 
-        forgotForm.addEventListener("submit", function (event) {
+        forgotForm.addEventListener("submit", function () {
 
-            alert("Password Reset Link Sent.");
+            showMessage("Password Reset Link Sent.");
 
         });
 
     }
 
-    // ---------------------------
+
     // Logout Confirmation
-    // ---------------------------
     const logoutBtn = document.querySelector(".logout");
 
     if (logoutBtn) {
 
         logoutBtn.addEventListener("click", function (event) {
 
-            const confirmLogout = confirm("Are you sure you want to logout?");
+            const confirmLogout = confirmAction(
+                "Are you sure you want to logout?"
+            );
 
             if (!confirmLogout) {
 
                 event.preventDefault();
+
+            } else {
+
+                logout();
 
             }
 
