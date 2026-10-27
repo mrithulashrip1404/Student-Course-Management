@@ -1,39 +1,41 @@
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import CourseCard from "../components/CourseCard";
+import { useCourses } from "../context/CourseContext";
 
 function Courses() {
-    const courses = [
-        {
-            id: 1,
-            name: "Full Stack Development",
-            description: "Learn frontend and backend development."
-        },
-        {
-            id: 2,
-            name: "Artificial Intelligence",
-            description: "Learn the fundamentals of AI and machine learning."
-        },
-        {
-            id: 3,
-            name: "Database Management",
-            description: "Learn database concepts and management."
-        }
-    ];
+    const {
+        courses,
+        loading,
+        error
+    } = useCourses();
 
     return (
         <>
             <Navbar />
 
             <main>
-                <h1>Courses</h1>
+                <h1>My Learning</h1>
 
-                {courses.map(course => (
-                    <CourseCard
-                        key={course.id}
-                        course={course}
-                    />
-                ))}
+                {loading && (
+                    <p>Loading courses...</p>
+                )}
+
+                {error && (
+                    <p>{error}</p>
+                )}
+
+                {!loading &&
+                    !error && (
+                        <div className="course-grid">
+                            {courses.map(course => (
+                                <CourseCard
+                                    key={course.id}
+                                    course={course}
+                                />
+                            ))}
+                        </div>
+                    )}
             </main>
 
             <Footer />

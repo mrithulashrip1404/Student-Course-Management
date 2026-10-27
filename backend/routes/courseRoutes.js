@@ -10,6 +10,7 @@ const {
 } = require("../controllers/courseController");
 
 const validateCourse = require("../middleware/courseValidation");
+const authMiddleware = require("../middleware/authMiddleware");
 
 /**
  * @swagger
@@ -127,8 +128,9 @@ const validateCourse = require("../middleware/courseValidation");
 
 router.get("/", getCourses);
 router.get("/:id", getCourse);
-router.post("/", validateCourse, addCourse);
-router.put("/:id", editCourse);
-router.delete("/:id", removeCourse);
+router.post("/", authMiddleware, validateCourse, addCourse);
+router.put("/:id", authMiddleware, editCourse);
+router.delete("/:id", authMiddleware, removeCourse);
+
 
 module.exports = router;
