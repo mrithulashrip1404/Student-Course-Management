@@ -4,6 +4,7 @@ const dotenv = require("dotenv");
 const morgan = require("morgan");
 const courseRoutes = require("./routes/courseRoutes");
 const authRoutes = require("./routes/authRoutes");
+const profileRoutes = require("./routes/profileRoutes");
 const swaggerUi = require("swagger-ui-express");
 const swaggerJsdoc = require("swagger-jsdoc");
 const notFoundMiddleware = require("./middleware/notFoundMiddleware");
@@ -57,6 +58,7 @@ app.get("/api/health", (req, res) => {
 });
 
 app.use("/api/v1/auth", authRoutes);
+app.use("/api/v1/profile", profileRoutes);
 app.use("/api/courses", courseRoutes);
 app.use(notFoundMiddleware);
 app.use(errorMiddleware);
