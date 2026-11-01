@@ -1,4 +1,4 @@
-* {
+﻿* {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
@@ -1239,6 +1239,7 @@ a {
 }
 
 
+@media (max-width: 650px) {
     .auth-decoration {
         display: none;
     }
@@ -1546,6 +1547,7 @@ a {
 }
 
 @media (max-width: 950px) {
+@media (max-width: 650px) {
     .auth-decoration {
         display: none;
     }
@@ -1803,3 +1805,121 @@ a {
         width: 100%;
     }
 }
+
+/* Login Selection Page */
+.login-selection-page {
+    padding: 60px 20px;
+}
+
+.login-selection-card {
+    max-width: 600px;
+    width: 100%;
+}
+
+.login-selection-content {
+    text-align: center;
+}
+
+.login-icon {
+    font-size: 48px;
+    margin-bottom: 15px;
+}
+
+.login-selection-content h1 {
+    margin-bottom: 12px;
+}
+
+.login-selection-content .auth-subtitle {
+    line-height: 1.7;
+    margin-bottom: 30px;
+}
+
+/* Login Option Cards */
+.login-options {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    margin-top: 25px;
+}
+
+.login-option-card {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding: 22px;
+    border: 1px solid rgba(246, 166, 216, 0.3);
+    border-radius: 16px;
+    background: rgba(246, 166, 216, 0.07);
+    color: inherit;
+    text-align: left;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.login-option-card:hover {
+    transform: translateY(-4px);
+    border-color: #f6a6d8;
+    background: rgba(246, 166, 216, 0.14);
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.15);
+}
+
+.login-option-icon {
+    min-width: 52px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 14px;
+    background: rgba(246, 166, 216, 0.18);
+    font-size: 26px;
+}
+
+.login-option-text {
+    flex: 1;
+}
+
+.login-option-text h2 {
+    margin: 0 0 7px;
+    font-size: 18px;
+}
+
+.login-option-text p {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.6;
+    opacity: 0.75;
+}
+
+.login-option-arrow {
+    font-size: 25px;
+    color: #f6a6d8;
+    transition: transform 0.3s ease;
+}
+
+.login-option-card:hover .login-option-arrow {
+    transform: translateX(5px);
+}
+
+.login-selection-note {
+    margin-top: 28px;
+    font-size: 13px;
+    opacity: 0.65;
+}
+
+@media (max-width: 480px) {
+    .login-option-card {
+        gap: 12px;
+        padding: 16px;
+    }
+
+    .login-option-icon {
+        min-width: 42px;
+        height: 42px;
+        font-size: 22px;
+    }
+
+    .login-option-text h2 {
+        font-size: 16px;
+    }
+}
+

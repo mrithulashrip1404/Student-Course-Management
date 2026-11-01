@@ -1,16 +1,14 @@
-
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const { v4: uuidv4 } = require("uuid");
-const students = require("../data/students");
+const User = require("../models/User");
 
 const registerStudent = async (studentData) => {
     const { name, email, password } = studentData;
     const normalizedEmail = email.trim().toLowerCase();
 
-    const existingStudent = students.find(
-        (student) => student.email === normalizedEmail
-    );
+    const existingStudent = await User.findOne({
+        email: normalizedEmail
+    });
 
     if (existingStudent) {
         throw new Error("Email already registered");
@@ -18,26 +16,28 @@ const registerStudent = async (studentData) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const newStudent = {
-        id: uuidv4(),
+    const newStudent = await User.create({
         name: name.trim(),
         email: normalizedEmail,
         password: hashedPassword,
-        role : "student"
+        role: "student"
+    });
+
+    const studentWithoutPassword = newStudent.toObject();
+    delete studentWithoutPassword.password;
+
+    return {
+        ...studentWithoutPassword,
+        id: newStudent._id.toString()
     };
-
-    students.push(newStudent);
-
-    const { password: removedPassword, ...studentWithoutPassword } = newStudent;
-    return studentWithoutPassword;
 };
 
 const loginStudent = async (email, password) => {
     const normalizedEmail = email.trim().toLowerCase();
 
-    const student = students.find(
-        (student) => student.email === normalizedEmail
-    );
+    const student = await User.findOne({
+        email: normalizedEmail
+    });
 
     if (!student) {
         throw new Error("Invalid email or password");
@@ -54,8 +54,9 @@ const loginStudent = async (email, password) => {
 
     const token = jwt.sign(
         {
-            id: student.id,
-            email: student.email
+            id: student._id.toString(),
+            email: student.email,
+            role: student.role
         },
         process.env.JWT_SECRET,
         {
@@ -63,10 +64,14 @@ const loginStudent = async (email, password) => {
         }
     );
 
-    const { password: removedPassword, ...studentWithoutPassword } = student;
+    const studentWithoutPassword = student.toObject();
+    delete studentWithoutPassword.password;
 
     return {
-        student: studentWithoutPassword,
+        student: {
+            ...studentWithoutPassword,
+            id: student._id.toString()
+        },
         token
     };
 };

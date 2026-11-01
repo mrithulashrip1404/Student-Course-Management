@@ -1,86 +1,80 @@
 
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import { loginStudent } from "../services/authService";
 
 function Login() {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [error, setError] = useState("");
-    const [loading, setLoading] = useState(false);
-
-    const navigate = useNavigate();
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        setError("");
-        setLoading(true);
-
-        try {
-            const result = await loginStudent({ email, password });
-
-            localStorage.setItem("token", result.token);
-            localStorage.setItem("student", JSON.stringify(result.data));
-
-            navigate("/student-dashboard");
-        } catch (err) {
-            setError(
-                err.response?.data?.message || "Login failed. Please try again."
-            );
-        } finally {
-            setLoading(false);
-        }
-    };
-
     return (
         <>
             <Navbar />
 
-            <main className="auth-page">
-                <div className="auth-card">
-                    <div className="auth-content">
-                        <div className="auth-icon">🔑</div>
+            <main className="auth-page login-selection-page">
+                <div className="auth-card login-selection-card">
+                    <div className="auth-content login-selection-content">
 
-                        <h1>Student Login</h1>
+                        <div className="login-icon">🎓</div>
+
+                        <h1>Welcome Back!</h1>
 
                         <p className="auth-subtitle">
-                            Login to access your courses and dashboard.
+                            Continue your journey with CourseBuddy.
+                            Choose your account type to get started.
                         </p>
 
-                        <form onSubmit={handleSubmit}>
-                            <label>Email</label>
-                            <input
-                                type="email"
-                                placeholder="Enter your email"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                required
-                            />
+                        <div className="login-options">
 
-                            <label>Password</label>
-                            <input
-                                type="password"
-                                placeholder="Enter your password"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                required
-                            />
-
-                            {error && <p className="auth-error">{error}</p>}
-
-                            <button
-                                type="submit"
-                                className="auth-button"
-                                disabled={loading}
+                            <Link
+                                to="/student-login"
+                                className="login-option-card"
                             >
-                                {loading ? "Logging in..." : "Login"}
-                            </button>
-                        </form>
+                                <div className="login-option-icon">
+                                    🎓
+                                </div>
+
+                                <div className="login-option-text">
+                                    <h2>Student Login</h2>
+                                    <p>
+                                        Access your courses, track your
+                                        progress and stay updated.
+                                    </p>
+                                </div>
+
+                                <span className="login-option-arrow">
+                                    →
+                                </span>
+                            </Link>
+
+                            <Link
+                                to="/admin-login"
+                                className="login-option-card"
+                            >
+                                <div className="login-option-icon">
+                                    🛡️
+                                </div>
+
+                                <div className="login-option-text">
+                                    <h2>Admin Login</h2>
+                                    <p>
+                                        Manage courses and oversee the
+                                        CourseBuddy platform.
+                                    </p>
+                                </div>
+
+                                <span className="login-option-arrow">
+                                    →
+                                </span>
+                            </Link>
+
+                        </div>
+
+                        <p className="login-selection-note">
+                            Your learning journey starts here.
+                        </p>
+
                     </div>
                 </div>
             </main>
+
             <Footer />
         </>
     );

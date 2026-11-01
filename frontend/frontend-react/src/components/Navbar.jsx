@@ -1,3 +1,4 @@
+
 import { Link } from "react-router-dom";
 
 function Navbar() {
@@ -22,10 +23,6 @@ function Navbar() {
 
                 <Link to="/register" className="navbar-link">
                     Register
-                </Link>
-
-                <Link to="/dashboard" className="navbar-link">
-                    Dashboard
                 </Link>
             </div>
         </nav>

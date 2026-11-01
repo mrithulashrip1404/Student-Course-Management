@@ -1,47 +1,30 @@
-const courses = require("../data/courses");
+const Course = require("../models/Course");
 
-const getAllCourses = () => courses;
-
-const getCourseById = (id) =>
-    courses.find(course => course.id === id);
-
-const createCourse = (courseData) => {
-    const newCourse = {
-        id: Date.now().toString(),
-        ...courseData
-    };
-
-    courses.push(newCourse);
-    return newCourse;
-};
-	
-const updateCourse = (id, courseData) => {
-    const index = courses.findIndex(
-        course => course.id === id
-    );
-
-    if (index === -1) return null;
-
-    courses[index] = {
-        ...courses[index],
-        ...courseData,
-        id
-    };
-
-    return courses[index];
+const getAllCourses = async () => {
+    return await Course.find().sort({ createdAt: -1 });
 };
 
-const deleteCourse = (id) => {
-    const index = courses.findIndex(
-        course => course.id === id
+const getCourseById = async (id) => {
+    return await Course.findById(id);
+};
+
+const createCourse = async (courseData) => {
+    return await Course.create(courseData);
+};
+
+const updateCourse = async (id, courseData) => {
+    return await Course.findByIdAndUpdate(
+        id,
+        courseData,
+        {
+            new: true,
+            runValidators: true
+        }
     );
+};
 
-    if (index === -1) return null;
-
-    const deletedCourse = courses[index];
-    courses.splice(index, 1);
-
-    return deletedCourse;
+const deleteCourse = async (id) => {
+    return await Course.findByIdAndDelete(id);
 };
 
 module.exports = {

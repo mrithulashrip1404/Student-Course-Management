@@ -1,3 +1,4 @@
+
 import { Routes, Route } from "react-router-dom";
 
 import Home from "./pages/Home";
@@ -14,19 +15,28 @@ import Notifications from "./pages/Notifications";
 import ForgotPassword from "./pages/ForgotPassword";
 import AdminDashboard from "./pages/AdminDashboard";
 import ManageCourses from "./pages/ManageCourses";
+import ProtectedRoute from "./ProtectedRoute";
+import StudentLogin from "./pages/StudentLogin";
 
 function App() {
     return (
         <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/student-login" element={<StudentLogin />} />
             <Route path="/register" element={<Register />} />
             <Route path="/admin-login" element={<AdminLogin />} />
 
             <Route path="/dashboard" element={<Dashboard />} />
+
+            {/* Student Routes */}
             <Route
                 path="/student-dashboard"
-                element={<StudentDashboard />}
+                element={
+                    <ProtectedRoute allowedRoles={["student"]}>
+                        <StudentDashboard />
+                    </ProtectedRoute>
+                }
             />
 
             <Route path="/courses" element={<Courses />} />
@@ -35,24 +45,55 @@ function App() {
                 element={<CourseDetails />}
             />
 
-            <Route path="/my-courses" element={<MyCourses />} />
-            <Route path="/progress" element={<Progress />} />
+            <Route
+                path="/my-courses"
+                element={
+                    <ProtectedRoute allowedRoles={["student"]}>
+                        <MyCourses />
+                    </ProtectedRoute>
+                }
+            />
+
+            <Route
+                path="/progress"
+                element={
+                    <ProtectedRoute allowedRoles={["student"]}>
+                        <Progress />
+                    </ProtectedRoute>
+                }
+            />
+
             <Route
                 path="/notifications"
-                element={<Notifications />}
+                element={
+                    <ProtectedRoute allowedRoles={["student"]}>
+                        <Notifications />
+                    </ProtectedRoute>
+                }
             />
+
             <Route
                 path="/forgot-password"
                 element={<ForgotPassword />}
             />
 
+            {/* Admin Routes */}
             <Route
                 path="/admin-dashboard"
-                element={<AdminDashboard />}
+                element={
+                    <ProtectedRoute allowedRoles={["admin"]}>
+                        <AdminDashboard />
+                    </ProtectedRoute>
+                }
             />
+
             <Route
                 path="/manage-courses"
-                element={<ManageCourses />}
+                element={
+                    <ProtectedRoute allowedRoles={["admin"]}>
+                        <ManageCourses />
+                    </ProtectedRoute>
+                }
             />
         </Routes>
     );

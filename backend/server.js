@@ -8,6 +8,9 @@ const swaggerUi = require("swagger-ui-express");
 const swaggerJsdoc = require("swagger-jsdoc");
 const notFoundMiddleware = require("./middleware/notFoundMiddleware");
 const errorMiddleware = require("./middleware/errorMiddleware");
+const createAdmin = require("./services/adminSetup");
+const connectDB = require("./config/db");
+const seedCourses = require("./services/courseSetup");
 
 dotenv.config();
 
@@ -60,6 +63,19 @@ app.use(errorMiddleware);
 
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`);
-});
+const startServer = async () => {
+    try {
+        await connectDB();
+        await createAdmin();
+        await seedCourses();
+
+        app.listen(PORT, () => {
+            console.log(`Server running on http://localhost:${PORT}`);
+        });
+    } catch (error) {
+        console.error("Server startup failed:", error.message);
+        process.exit(1);
+    }
+};
+
+startServer();

@@ -11,6 +11,7 @@ const {
 
 const validateCourse = require("../middleware/courseValidation");
 const authMiddleware = require("../middleware/authMiddleware");
+const authorizeRoles = require("../middleware/roleMiddleware");
 
 /**
  * @swagger
@@ -128,9 +129,9 @@ const authMiddleware = require("../middleware/authMiddleware");
 
 router.get("/", getCourses);
 router.get("/:id", getCourse);
-router.post("/", authMiddleware, validateCourse, addCourse);
-router.put("/:id", authMiddleware, editCourse);
-router.delete("/:id", authMiddleware, removeCourse);
+router.post("/", authMiddleware, authorizeRoles("admin"), validateCourse, addCourse);
+router.put("/:id", authMiddleware, authorizeRoles("admin"), editCourse);
+router.delete("/:id", authMiddleware, authorizeRoles("admin"), removeCourse);
 
 
 module.exports = router;
