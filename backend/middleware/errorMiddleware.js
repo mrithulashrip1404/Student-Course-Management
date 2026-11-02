@@ -1,3 +1,4 @@
+
 const errorMiddleware = (err, req, res, next) => {
     console.error(err.stack || err);
 
@@ -15,6 +16,11 @@ const errorMiddleware = (err, req, res, next) => {
     } else if (err.name === "CastError") {
         statusCode = 400;
         message = "Invalid ID or data format";
+    }
+
+    if (statusCode >= 500 && process.env.NODE_ENV === "production") {
+        message = "Internal Server Error";
+        errors = undefined;
     }
 
     res.status(statusCode).json({

@@ -48,7 +48,16 @@ const swaggerOptions = {
 const swaggerSpec = swaggerJsdoc(swaggerOptions);
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-app.use(cors());
+const allowedOrigins = [
+    "http://localhost:5174",
+    "http://localhost:5175"
+];
+
+app.use(cors({
+    origin: allowedOrigins,
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan("dev"));
