@@ -1,3 +1,4 @@
+
 const express = require("express");
 const http = require("http");
 const cors = require("cors");
@@ -23,15 +24,25 @@ dotenv.config();
 const app = express();
 const server = http.createServer(app);
 
+// Allowed frontend origins
+const allowedOrigins = [
+    "http://localhost:5174",
+    "http://localhost:5175",
+    process.env.CLIENT_URL
+].filter(Boolean);
+
+// Socket.IO configuration
 const io = new Server(server, {
     cors: {
-        origin: ["http://localhost:5174", "http://localhost:5175"],
-        methods: ["GET", "POST"]
+        origin: allowedOrigins,
+        methods: ["GET", "POST"],
+        credentials: true
     }
 });
 
 app.set("io", io);
 
+// Swagger configuration
 const swaggerOptions = {
     definition: {
         openapi: "3.0.0",
@@ -48,16 +59,14 @@ const swaggerOptions = {
 const swaggerSpec = swaggerJsdoc(swaggerOptions);
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-const allowedOrigins = [
-    "http://localhost:5174",
-    "http://localhost:5175"
-];
 
+// Express CORS configuration
 app.use(cors({
     origin: allowedOrigins,
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true
 }));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan("dev"));
@@ -66,6 +75,7 @@ app.get("/", (req, res) => {
     res.json({ message: "Student Course Management API is running" });
 });
 
+// Health endpoint
 app.get("/api/health", (req, res) => {
     res.status(200).json({
         success: true,
@@ -74,12 +84,15 @@ app.get("/api/health", (req, res) => {
     });
 });
 
+// Existing API routes — unchanged
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/profile", profileRoutes);
 app.use("/api/courses", courseRoutes);
+
 app.use(notFoundMiddleware);
 app.use(errorMiddleware);
 
+// Socket.IO authentication and handlers — unchanged
 io.use(socketAuth);
 socketHandler(io);
 
