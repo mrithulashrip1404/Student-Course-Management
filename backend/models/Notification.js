@@ -2,28 +2,31 @@ const mongoose = require("mongoose");
 
 const notificationSchema = new mongoose.Schema(
     {
-        recipient: {
+        user: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "User",
             required: true
         },
+        sender: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User"
+        },
         message: {
             type: String,
-            required: true,
-            trim: true,
-            maxlength: 500
+            required: true
         },
-        isRead: {
+        type: {
+            type: String,
+            default: "message"
+        },
+        read: {
             type: Boolean,
             default: false
         }
     },
-    { timestamps: true }
+    {
+        timestamps: true
+    }
 );
-
-notificationSchema.index({
-    recipient: 1,
-    createdAt: -1
-});
 
 module.exports = mongoose.model("Notification", notificationSchema);

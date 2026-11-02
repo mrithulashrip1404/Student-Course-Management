@@ -1,3 +1,4 @@
+
 import Sidebar from "../components/Sidebar";
 import TopBar from "../components/TopBar";
 import HeroBanner from "../components/HeroBanner";
@@ -5,6 +6,8 @@ import CourseCard from "../components/CourseCard";
 import WeeklySchedule from "../components/WeeklySchedule";
 import QuickActions from "../components/QuickActions";
 import ProgressCard from "../components/ProgressCard";
+import Chat from "../components/Chat";
+import Notifications from "../components/Notifications";
 
 function StudentDashboard() {
     const courses = [
@@ -68,6 +71,11 @@ function StudentDashboard() {
                     </div>
 
                     <QuickActions />
+
+                    <div className="dashboard-grid">
+                        <Chat />
+                        <Notifications />
+                    </div>
                 </div>
             </div>
         </div>

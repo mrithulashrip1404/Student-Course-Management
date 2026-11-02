@@ -2,12 +2,13 @@ import { Link, useLocation } from "react-router-dom";
 
 function Sidebar() {
     const location = useLocation();
+    const student = JSON.parse(localStorage.getItem("student") || "{}");
+    const studentName = student.name || "Student";
 
     return (
         <aside className="sidebar">
             <div className="sidebar-logo">
                 <div className="logo-icon">✦</div>
-
                 <div>
                     <h2>CourseBuddy</h2>
                     <p>Learn. Grow. Succeed.</p>
@@ -15,59 +16,26 @@ function Sidebar() {
             </div>
 
             <nav className="sidebar-nav">
-                <Link
-                    to="/student-dashboard"
-                    className={
-                        location.pathname === "/student-dashboard"
-                            ? "active"
-                            : ""
-                    }
-                >
-                    <span>⌂</span>
-                    Dashboard
+                <Link to="/student-dashboard" className={location.pathname === "/student-dashboard" ? "active" : ""}>
+                    <span>⌂</span> Dashboard
                 </Link>
-
-                <Link to="/courses">
-                    <span>▣</span>
-                    Courses
-                </Link>
-
-                <Link to="/my-courses">
-                    <span>♡</span>
-                    My Courses
-                </Link>
-
-                <Link to="/progress">
-                    <span>◔</span>
-                    Progress
-                </Link>
-
-                <Link to="/notifications">
-                    <span>♢</span>
-                    Notifications
-                    <b>3</b>
-                </Link>
+                <Link to="/courses"><span>▣</span> Courses</Link>
+                <Link to="/my-courses"><span>♡</span> My Courses</Link>
+                <Link to="/progress"><span>◔</span> Progress</Link>
+                <Link to="/notifications"><span>♢</span> Notifications <b>3</b></Link>
             </nav>
 
             <div className="sidebar-bottom">
                 <div className="sidebar-profile">
-                    <div className="profile-avatar">P</div>
-
+                    <div className="profile-avatar">{studentName.charAt(0).toUpperCase()}</div>
                     <div>
-                        <strong>Priya</strong>
+                        <strong>{studentName}</strong>
                         <small>Student</small>
                     </div>
                 </div>
 
-                <Link to="/profile">
-                    <span>⚙</span>
-                    Profile
-                </Link>
-
-                <Link to="/login">
-                    <span>↪</span>
-                    Logout
-                </Link>
+                <Link to="/profile"><span>⚙</span> Profile</Link>
+                <Link to="/login"><span>↪</span> Logout</Link>
             </div>
         </aside>
     );
