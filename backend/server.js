@@ -18,6 +18,11 @@ const connectDB = require("./config/db");
 const seedCourses = require("./services/courseSetup");
 const socketAuth = require("./middleware/socketAuth");
 const socketHandler = require("./socket/socketHandler");
+const adminRoutes = require("./routes/adminRoutes");
+const lessonRoutes = require("./routes/lessonRoutes");
+const progressRoutes = require("./routes/progressRoutes");
+const certificateRoutes = require("./routes/certificateRoutes");
+const enrollmentRoutes = require("./routes/enrollmentRoutes");
 
 dotenv.config();
 
@@ -26,6 +31,7 @@ const server = http.createServer(app);
 
 // Allowed frontend origins
 const allowedOrigins = [
+    "http://localhost:5173",
     "http://localhost:5174",
     "http://localhost:5175",
     process.env.CLIENT_URL
@@ -88,6 +94,11 @@ app.get("/api/health", (req, res) => {
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/profile", profileRoutes);
 app.use("/api/courses", courseRoutes);
+app.use("/api/admins", adminRoutes);
+app.use("/api/lessons", lessonRoutes);
+app.use("/api/progress", progressRoutes);
+app.use("/api/certificates", certificateRoutes);
+app.use("/api/enrollments", enrollmentRoutes);
 
 app.use(notFoundMiddleware);
 app.use(errorMiddleware);

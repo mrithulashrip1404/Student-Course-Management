@@ -12,6 +12,12 @@ const learningProgressSchema = new mongoose.Schema(
             ref: "Course",
             required: true
         },
+        completedLessonIds: {
+            type: [{
+                type: mongoose.Schema.Types.ObjectId
+            }],
+            default: []
+        },
         completedLessons: {
             type: Number,
             default: 0,

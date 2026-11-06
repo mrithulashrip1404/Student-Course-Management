@@ -1,5 +1,23 @@
 const mongoose = require("mongoose");
 
+const lessonSchema = new mongoose.Schema({
+    title: {
+        type: String,
+        required: true,
+        trim: true
+    },
+    description: {
+        type: String,
+        trim: true,
+        default: ""
+    },
+    order: {
+        type: Number,
+        required: true,
+        min: 1
+    }
+});
+
 const courseSchema = new mongoose.Schema(
     {
         courseName: {
@@ -29,6 +47,10 @@ const courseSchema = new mongoose.Schema(
         description: {
             type: String,
             required: true
+        },
+        lessons: {
+            type: [lessonSchema],
+            default: []
         },
         status: {
             type: String,

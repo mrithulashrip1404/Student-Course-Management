@@ -6,6 +6,8 @@ function CourseCard({ course }) {
         "Web Development": "🌐"
     };
 
+    const courseId = course._id || course.id;
+
     return (
         <div className="course-card">
             <div className="course-icon">
@@ -23,7 +25,7 @@ function CourseCard({ course }) {
 
                 <p>{course.description || course.overview}</p>
 
-                <Link to={"/courses/" + course.id}>
+                <Link to={`/courses/${courseId}`}>
                     View Course
                 </Link>
             </div>

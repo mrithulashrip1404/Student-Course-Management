@@ -9,18 +9,20 @@ const createAdmin = async () => {
         throw new Error("Admin credentials are missing in .env");
     }
 
-    const existingAdmin = await User.findOne({ email });
+    const hashedPassword = await bcrypt.hash(password, 10);
 
-    if (!existingAdmin) {
-        const hashedPassword = await bcrypt.hash(password, 10);
-
-        await User.create({
-            name: "Administrator",
-            email,
-            password: hashedPassword,
-            role: "admin"
-        });
-    }
+    await User.findOneAndUpdate(
+        { email },
+        {
+            $set: {
+                name: "Administrator",
+                email,
+                password: hashedPassword,
+                role: "admin"
+            }
+        },
+        { upsert: true, new: true, runValidators: true }
+    );
 
     console.log("Admin account initialized");
 };

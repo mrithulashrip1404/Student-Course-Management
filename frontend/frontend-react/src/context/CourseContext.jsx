@@ -10,6 +10,11 @@ import api from "../services/api";
 
 const CourseContext = createContext(null);
 
+const normalizeCourse = (course) => ({
+    ...course,
+    id: course._id || course.id
+});
+
 export function CourseProvider({ children }) {
     const [courses, setCourses] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -21,7 +26,10 @@ export function CourseProvider({ children }) {
 
             const response = await api.get("/courses");
 
-            setCourses(response.data.data);
+            setCourses(
+                (response.data.data || []).map(normalizeCourse)
+            );
+
             setError(null);
         } catch (error) {
             console.error("Failed to fetch courses:", error);
@@ -40,7 +48,7 @@ export function CourseProvider({ children }) {
 
         setCourses((previousCourses) => [
             ...previousCourses,
-            response.data.data
+            normalizeCourse(response.data.data)
         ]);
     }
 
@@ -53,7 +61,7 @@ export function CourseProvider({ children }) {
         setCourses((previousCourses) =>
             previousCourses.map((course) =>
                 course.id === id
-                    ? response.data.data
+                    ? normalizeCourse(response.data.data)
                     : course
             )
         );
