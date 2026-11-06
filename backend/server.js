@@ -23,6 +23,7 @@ const lessonRoutes = require("./routes/lessonRoutes");
 const progressRoutes = require("./routes/progressRoutes");
 const certificateRoutes = require("./routes/certificateRoutes");
 const enrollmentRoutes = require("./routes/enrollmentRoutes");
+const notificationRoutes = require("./routes/notificationRoutes");
 
 dotenv.config();
 
@@ -99,6 +100,7 @@ app.use("/api/lessons", lessonRoutes);
 app.use("/api/progress", progressRoutes);
 app.use("/api/certificates", certificateRoutes);
 app.use("/api/enrollments", enrollmentRoutes);
+app.use("/api/notifications", notificationRoutes);
 
 app.use(notFoundMiddleware);
 app.use(errorMiddleware);
