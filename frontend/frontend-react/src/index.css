@@ -1923,3 +1923,56 @@ a {
     }
 }
 
+/* Dashboard Course Progress */
+
+.dashboard-course-progress {
+    margin-top: 18px;
+}
+
+.dashboard-progress-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 9px;
+    font-size: 13px;
+}
+
+.dashboard-progress-heading span {
+    color: #f6a6d8;
+    font-weight: 700;
+}
+
+.dashboard-progress-track {
+    height: 8px;
+    background: #35375d;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+
+.dashboard-progress-fill {
+    height: 100%;
+    background: #f6a6d8;
+    border-radius: 10px;
+    transition: width 0.3s ease;
+}
+
+.dashboard-course-progress p {
+    color: #aaa9c7;
+    font-size: 12px;
+    margin-bottom: 10px;
+}
+
+.dashboard-course-status {
+    display: inline-block;
+    color: #f6a6d8;
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 16px;
+}
+
+.empty-course-message {
+    color: #aaa9c7;
+    font-size: 14px;
+    padding: 12px 0;
+}

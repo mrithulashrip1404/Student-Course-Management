@@ -1,6 +1,7 @@
+
 import { Link } from "react-router-dom";
 
-function CourseCard({ course }) {
+function CourseCard({ course, actionLabel = "View Course", children }) {
     const courseIcons = {
         "Python Programming": "🐍",
         "Web Development": "🌐"
@@ -9,7 +10,7 @@ function CourseCard({ course }) {
     const courseId = course._id || course.id;
 
     return (
-        <div className="course-card">
+        <article className="course-card">
             <div className="course-icon">
                 <span className="course-emoji">
                     {courseIcons[course.courseName] || "📚"}
@@ -23,13 +24,17 @@ function CourseCard({ course }) {
 
                 <h3>{course.courseName}</h3>
 
-                <p>{course.description || course.overview}</p>
+                <p>
+                    {course.description || course.overview}
+                </p>
+
+                {children}
 
                 <Link to={`/courses/${courseId}`}>
-                    View Course
+                    {actionLabel}
                 </Link>
             </div>
-        </div>
+        </article>
     );
 }
 
