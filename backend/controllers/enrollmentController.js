@@ -1,6 +1,8 @@
+
 const Course = require("../models/Course");
 const Enrollment = require("../models/Enrollment");
 
+// Enroll a student in a course
 const enrollCourse = async (req, res) => {
     try {
         const { courseId } = req.params;
@@ -58,6 +60,33 @@ const enrollCourse = async (req, res) => {
     }
 };
 
+// Get courses enrolled by the logged-in student
+const getMyCourses = async (req, res) => {
+    try {
+        const studentId = req.user.id;
+
+        const enrollments = await Enrollment.find({
+            student: studentId,
+            status: { $ne: "withdrawn" }
+        })
+            .populate("course")
+            .sort({ enrolledAt: -1 });
+
+        res.status(200).json({
+            success: true,
+            count: enrollments.length,
+            data: enrollments
+        });
+
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: "Unable to fetch enrolled courses"
+        });
+    }
+};
+
 module.exports = {
-    enrollCourse
+    enrollCourse,
+    getMyCourses
 };
