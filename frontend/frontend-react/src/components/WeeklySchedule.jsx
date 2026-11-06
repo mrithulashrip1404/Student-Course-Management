@@ -1,39 +1,95 @@
-function WeeklySchedule() {
+import { Link } from "react-router-dom";
+
+function WeeklySchedule({ enrollments = [] }) {
+    const activeCourses = enrollments.filter(
+        (item) =>
+            item.status === "active" &&
+            (item.progress?.progressPercentage || 0) < 100
+    );
+
+    const nextCourse = activeCourses[0];
+
+    const totalLessons = enrollments.reduce(
+        (sum, item) => sum + (item.progress?.totalLessons || 0),
+        0
+    );
+
+    const completedLessons = enrollments.reduce(
+        (sum, item) => sum + (item.progress?.completedLessons || 0),
+        0
+    );
+
+    const remainingLessons = Math.max(
+        totalLessons - completedLessons,
+        0
+    );
+
     return (
-        <section className="weekly-schedule">
+        <section className="weekly-schedule learning-focus">
             <div className="section-heading">
                 <div>
-                    <p className="section-label">THIS WEEK</p>
-                    <h2>Your Schedule</h2>
+                    <p className="section-label">LEARNING OVERVIEW</p>
+                    <h2>Your Learning Focus</h2>
                 </div>
-
-                <span>View all</span>
+                <Link to="/progress">View Progress</Link>
             </div>
 
-            <div className="schedule-list">
-                <div className="schedule-item">
-                    <span className="schedule-day">MON</span>
-                    <div>
-                        <h3>React Components</h3>
-                        <p>10:00 AM • Full Stack Development</p>
-                    </div>
+            <div className="learning-focus-stats">
+                <div>
+                    <span>📚</span>
+                    <strong>{activeCourses.length}</strong>
+                    <p>Active Courses</p>
                 </div>
 
-                <div className="schedule-item">
-                    <span className="schedule-day">WED</span>
-                    <div>
-                        <h3>AI Fundamentals</h3>
-                        <p>11:30 AM • Artificial Intelligence</p>
-                    </div>
+                <div>
+                    <span>✅</span>
+                    <strong>{completedLessons}</strong>
+                    <p>Lessons Completed</p>
                 </div>
 
-                <div className="schedule-item">
-                    <span className="schedule-day">FRI</span>
-                    <div>
-                        <h3>Database Practice</h3>
-                        <p>2:00 PM • Database Management</p>
-                    </div>
+                <div>
+                    <span>🎯</span>
+                    <strong>{remainingLessons}</strong>
+                    <p>Lessons Remaining</p>
                 </div>
+            </div>
+
+            <div className="learning-focus-next">
+                <h3>Continue Your Learning</h3>
+
+                {nextCourse?.course ? (
+                    <>
+                        <p>{nextCourse.course.title}</p>
+
+                        <div className="learning-focus-progress">
+                            <div
+                                style={{
+                                    width: `${
+                                        nextCourse.progress?.progressPercentage || 0
+                                    }%`
+                                }}
+                            />
+                        </div>
+
+                        <small>
+                            {nextCourse.progress?.progressPercentage || 0}%
+                            completed
+                        </small>
+
+                        <Link
+                            to={`/courses/${nextCourse.course._id}`}
+                            className="learning-focus-button"
+                        >
+                            Continue Course
+                        </Link>
+                    </>
+                ) : (
+                    <p>
+                        {enrollments.length > 0
+                            ? "Congratulations! You have completed your active courses."
+                            : "Enroll in a course to begin your learning journey."}
+                    </p>
+                )}
             </div>
         </section>
     );

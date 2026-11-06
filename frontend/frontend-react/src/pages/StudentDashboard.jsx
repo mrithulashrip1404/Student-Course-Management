@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 
 import Sidebar from "../components/Sidebar";
@@ -32,7 +33,9 @@ function StudentDashboard() {
                     enrolledCourses.map(async (enrollment) => {
                         const course = enrollment.course;
 
-                        if (!course) return null;
+                        if (!course) {
+                            return null;
+                        }
 
                         try {
                             const progressResponse = await api.get(
@@ -54,7 +57,8 @@ function StudentDashboard() {
                                 progress: {
                                     progressPercentage: 0,
                                     completedLessons: 0,
-                                    totalLessons: course.lessons?.length || 0
+                                    totalLessons: course.lessons?.length || 0,
+                                    status: enrollment.status
                                 }
                             };
                         }
@@ -65,12 +69,15 @@ function StudentDashboard() {
                     setEnrollments(coursesWithProgress.filter(Boolean));
                 }
             } catch (err) {
-                console.error("Failed to load dashboard courses:", err);
+                console.error(
+                    "Failed to load dashboard courses:",
+                    err
+                );
 
                 if (!cancelled) {
                     setError(
                         err.response?.data?.message ||
-                        "Unable to load your enrolled courses."
+                        "Unable to load your enrolled courses. Please try again."
                     );
                 }
             } finally {
@@ -87,31 +94,46 @@ function StudentDashboard() {
         };
     }, []);
 
+    // Separate courses according to their actual learning progress.
     const notStartedCourses = enrollments.filter(
-        item =>
+        (item) =>
             item.status === "active" &&
             (item.progress?.progressPercentage || 0) === 0
     );
 
     const inProgressCourses = enrollments.filter(
-        item =>
+        (item) =>
             item.status === "active" &&
             (item.progress?.progressPercentage || 0) > 0 &&
             (item.progress?.progressPercentage || 0) < 100
     );
 
     const completedCourses = enrollments.filter(
-        item =>
+        (item) =>
             item.status === "completed" ||
             (item.progress?.progressPercentage || 0) === 100
     );
 
+    // Find the next active course for the Continue Learning button.
+    const nextCourse = enrollments.find(
+        (item) =>
+            item.status === "active" &&
+            (item.progress?.progressPercentage || 0) < 100
+    );
+
+    const continuePath = nextCourse?.course?._id
+        ? `/courses/${nextCourse.course._id}`
+        : "/my-courses";
+
+    // Reusable enrolled-course section.
     const renderCourseSection = (title, items, actionLabel) => (
-        <section className="courses-section">
+        <section className="courses-section" key={title}>
             <div className="section-heading">
                 <div>
                     <p className="section-label">MY COURSES</p>
-                    <h2>{title} ({items.length})</h2>
+                    <h2>
+                        {title} ({items.length})
+                    </h2>
                 </div>
             </div>
 
@@ -121,7 +143,7 @@ function StudentDashboard() {
                 </p>
             ) : (
                 <div className="course-grid">
-                    {items.map(item => (
+                    {items.map((item) => (
                         <CourseCard
                             key={item._id}
                             course={item.course}
@@ -130,6 +152,7 @@ function StudentDashboard() {
                             <div className="dashboard-course-progress">
                                 <div className="dashboard-progress-heading">
                                     <strong>Learning Progress</strong>
+
                                     <span>
                                         {item.progress?.progressPercentage || 0}%
                                     </span>
@@ -148,7 +171,8 @@ function StudentDashboard() {
 
                                 <p>
                                     {item.progress?.completedLessons || 0} of{" "}
-                                    {item.progress?.totalLessons || 0} lessons completed
+                                    {item.progress?.totalLessons || 0} lessons
+                                    completed
                                 </p>
 
                                 <span className="dashboard-course-status">
@@ -170,12 +194,20 @@ function StudentDashboard() {
                 <TopBar />
 
                 <div className="dashboard-content">
-                    <HeroBanner />
+                    <HeroBanner continuePath={continuePath} />
 
                     {loading ? (
                         <p>Loading your enrolled courses...</p>
                     ) : error ? (
-                        <p>{error}</p>
+                        <p className="dashboard-error">{error}</p>
+                    ) : enrollments.length === 0 ? (
+                        <section className="empty-course-message">
+                            <h2>Start Your Learning Journey!</h2>
+                            <p>
+                                You haven't enrolled in any courses yet.
+                                Explore our courses and start learning.
+                            </p>
+                        </section>
                     ) : (
                         <>
                             {renderCourseSection(
@@ -199,8 +231,11 @@ function StudentDashboard() {
                     )}
 
                     <div className="dashboard-grid">
-                        <WeeklySchedule />
-                        <ProgressCard />
+                        <WeeklySchedule enrollments={enrollments} />
+
+                        <ProgressCard
+                            enrollments={enrollments}
+                        />
                     </div>
 
                     <QuickActions />
