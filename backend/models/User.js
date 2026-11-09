@@ -22,6 +22,16 @@ const userSchema = new mongoose.Schema(
             type: String,
             enum: ["student", "admin"],
             default: "student"
+        },
+        preferences: {
+            compactView: {
+                type: Boolean,
+                default: false
+            },
+            showDashboardNotifications: {
+                type: Boolean,
+                default: true
+            }
         }
     },
     {

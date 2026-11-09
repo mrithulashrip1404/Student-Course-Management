@@ -161,7 +161,7 @@ function Notifications() {
                                             type="button"
                                             onClick={() =>
                                                 markAsRead(item._id)
-                                            }
+                                            }   
                                         >
                                             Mark as read
                                         </button>

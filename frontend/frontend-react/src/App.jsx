@@ -1,4 +1,3 @@
-
 import { Routes, Route } from "react-router-dom";
 
 import Home from "./pages/Home";
@@ -12,6 +11,8 @@ import CourseDetails from "./pages/CourseDetails";
 import MyCourses from "./pages/MyCourses";
 import Progress from "./pages/Progress";
 import Notifications from "./pages/Notifications";
+import Profile from "./pages/Profile";
+import Settings from "./pages/Settings";
 import ForgotPassword from "./pages/ForgotPassword";
 import AdminDashboard from "./pages/AdminDashboard";
 import ManageCourses from "./pages/ManageCourses";
@@ -40,10 +41,7 @@ function App() {
             />
 
             <Route path="/courses" element={<Courses />} />
-            <Route
-                path="/courses/:id"
-                element={<CourseDetails />}
-            />
+            <Route path="/courses/:id" element={<CourseDetails />} />
 
             <Route
                 path="/my-courses"
@@ -73,9 +71,24 @@ function App() {
             />
 
             <Route
-                path="/forgot-password"
-                element={<ForgotPassword />}
+                path="/profile"
+                element={
+                    <ProtectedRoute allowedRoles={["student"]}>
+                        <Profile />
+                    </ProtectedRoute>
+                }
             />
+
+            <Route
+                path="/settings"
+                element={
+                    <ProtectedRoute allowedRoles={["student"]}>
+                        <Settings />
+                    </ProtectedRoute>
+                }
+            />
+
+            <Route path="/forgot-password" element={<ForgotPassword />} />
 
             {/* Admin Routes */}
             <Route
