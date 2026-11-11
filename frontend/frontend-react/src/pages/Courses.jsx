@@ -30,7 +30,7 @@ function Courses() {
         <>
             <Navbar />
 
-            <main>
+            <main className="courses-page">
                 <h1>Explore Courses</h1>
 
                 {searchTerm && (
