@@ -1,3 +1,4 @@
+
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { useParams, Link } from "react-router-dom";
@@ -18,6 +19,7 @@ function CourseDetails() {
     const [error, setError] = useState("");
     const [enrollmentError, setEnrollmentError] = useState("");
 
+    // Load course progress
     const loadProgress = async () => {
         try {
             const response = await api.get(`/progress/${id}`);
@@ -25,8 +27,15 @@ function CourseDetails() {
             setProgress(response.data.data);
             setIsEnrolled(true);
             setEnrollmentError("");
+            setError("");
         } catch (err) {
-            if (err.response?.status === 403) {
+            if (err.response?.status === 401) {
+                setIsEnrolled(false);
+                setProgress(null);
+                setEnrollmentError(
+                    "Log in as a student to enroll and access lessons."
+                );
+            } else if (err.response?.status === 403) {
                 setIsEnrolled(false);
                 setProgress(null);
                 setEnrollmentError(
@@ -41,6 +50,7 @@ function CourseDetails() {
         }
     };
 
+    // Fetch course details
     useEffect(() => {
         async function fetchCourse() {
             try {
@@ -60,17 +70,20 @@ function CourseDetails() {
         fetchCourse();
     }, [id]);
 
+    // Load progress after course details are available
     useEffect(() => {
         if (course) {
             loadProgress();
         }
     }, [course]);
 
+    // Enroll in course
     const handleEnroll = async () => {
         try {
             setEnrolling(true);
             setError("");
             setMessage("");
+            setEnrollmentError("");
 
             const response = await api.post(`/enrollments/${id}`);
 
@@ -84,6 +97,14 @@ function CourseDetails() {
                 setIsEnrolled(true);
                 setEnrollmentError("");
                 await loadProgress();
+            } else if (err.response?.status === 401) {
+                setEnrollmentError(
+                    "Please log in as a student to enroll in this course."
+                );
+            } else if (err.response?.status === 403) {
+                setEnrollmentError(
+                    "Student access is required to enroll in this course."
+                );
             } else {
                 setError(
                     err.response?.data?.message ||
@@ -95,6 +116,7 @@ function CourseDetails() {
         }
     };
 
+    // Mark lesson as completed
     const handleCompleteLesson = async (lessonId) => {
         try {
             setCompleting(lessonId);
@@ -108,15 +130,22 @@ function CourseDetails() {
             setMessage(response.data.message);
             await loadProgress();
         } catch (err) {
-            setError(
-                err.response?.data?.message ||
-                "Unable to update lesson progress."
-            );
+            if (err.response?.status === 401) {
+                setEnrollmentError(
+                    "Please log in as a student to update lesson progress."
+                );
+            } else {
+                setError(
+                    err.response?.data?.message ||
+                    "Unable to update lesson progress."
+                );
+            }
         } finally {
             setCompleting("");
         }
     };
 
+    // Download course completion certificate
     const handleCertificateDownload = async () => {
         try {
             setDownloading(true);
@@ -151,11 +180,13 @@ function CourseDetails() {
         }
     };
 
+    // Course illustrations
     const icons = {
         "Python Programming": "🐍",
         "Web Development": "🌐"
     };
 
+    // Course learning outcomes
     const outcomes = [
         "Understand the core concepts of " +
             (course?.courseName || "this course"),
@@ -163,6 +194,7 @@ function CourseDetails() {
         "Build confidence through hands-on learning"
     ];
 
+    // Loading state
     if (loading) {
         return (
             <>
@@ -175,6 +207,7 @@ function CourseDetails() {
         );
     }
 
+    // Course loading error
     if (error && !course) {
         return (
             <>
@@ -192,6 +225,7 @@ function CourseDetails() {
         );
     }
 
+    // Course not found
     if (!course) {
         return (
             <>
@@ -217,6 +251,8 @@ function CourseDetails() {
             <Navbar />
 
             <main className="cd-page">
+
+                {/* Course navigation */}
                 <div className="cd-topbar">
                     <Link to="/courses" className="cd-back">
                         ← All Courses
@@ -227,8 +263,11 @@ function CourseDetails() {
                     </span>
                 </div>
 
+                {/* Course overview */}
                 <section className="cd-hero">
+
                     <div className="cd-hero-content">
+
                         <span className="cd-category">
                             {course.category}
                         </span>
@@ -241,11 +280,14 @@ function CourseDetails() {
                                 "Explore this course and build your skills."}
                         </p>
 
+                        {/* Course statistics */}
                         <div className="cd-stats">
+
                             <div className="cd-stat">
                                 <span className="cd-stat-icon">
                                     📘
                                 </span>
+
                                 <div>
                                     <small>Course Code</small>
                                     <strong>{course.courseCode}</strong>
@@ -256,6 +298,7 @@ function CourseDetails() {
                                 <span className="cd-stat-icon">
                                     👨‍🏫
                                 </span>
+
                                 <div>
                                     <small>Instructor</small>
                                     <strong>{course.instructor}</strong>
@@ -266,13 +309,16 @@ function CourseDetails() {
                                 <span className="cd-stat-icon">
                                     ⏱️
                                 </span>
+
                                 <div>
                                     <small>Duration</small>
                                     <strong>{course.duration}</strong>
                                 </div>
                             </div>
+
                         </div>
 
+                        {/* Enrollment button */}
                         {isEnrolled ? (
                             <p className="cd-enrolled-message">
                                 ✓ Already Enrolled
@@ -293,23 +339,32 @@ function CourseDetails() {
                         <Link to="/courses" className="cd-button">
                             ← Back to Courses
                         </Link>
+
                     </div>
 
+                    {/* Course illustration */}
                     <div className="cd-illustration">
                         <div className="cd-icon-circle">
                             {icons[course.courseName] || "📚"}
                         </div>
                     </div>
+
                 </section>
 
+                {/* Course content */}
                 <div className="cd-content-grid">
+
+                    {/* Learning outcomes */}
                     <section className="cd-panel">
+
                         <div className="cd-section-heading">
                             <span className="cd-heading-icon">
                                 🎯
                             </span>
+
                             <div>
                                 <h2>What You'll Learn</h2>
+
                                 <p>
                                     Skills you'll develop throughout this course.
                                 </p>
@@ -325,19 +380,25 @@ function CourseDetails() {
                                     <span className="cd-check">
                                         ✓
                                     </span>
+
                                     <span>{outcome}</span>
                                 </div>
                             ))}
                         </div>
+
                     </section>
 
+                    {/* Course lessons */}
                     <section className="cd-panel">
+
                         <div className="cd-section-heading">
                             <span className="cd-heading-icon">
                                 🗂️
                             </span>
+
                             <div>
                                 <h2>Course Lessons</h2>
+
                                 <p>
                                     Complete each lesson to track your progress.
                                 </p>
@@ -352,12 +413,14 @@ function CourseDetails() {
                             </p>
                         ) : (
                             <div className="cd-modules">
+
                                 {lessons.map((lesson, index) => {
+
                                     const completed =
                                         completedLessonIds.some(
                                             (lessonId) =>
-                                                lessonId.toString() ===
-                                                lesson._id
+                                                String(lessonId) ===
+                                                String(lesson._id)
                                         );
 
                                     return (
@@ -365,6 +428,7 @@ function CourseDetails() {
                                             className="cd-module"
                                             key={lesson._id}
                                         >
+
                                             <span className="cd-module-number">
                                                 {String(index + 1).padStart(2, "0")}
                                             </span>
@@ -382,7 +446,9 @@ function CourseDetails() {
                                             </div>
 
                                             {completed ? (
-                                                <span>✓ Completed</span>
+                                                <span>
+                                                    ✓ Completed
+                                                </span>
                                             ) : (
                                                 <button
                                                     type="button"
@@ -398,16 +464,22 @@ function CourseDetails() {
                                                         : "Complete"}
                                                 </button>
                                             )}
+
                                         </div>
                                     );
                                 })}
+
                             </div>
                         )}
+
                     </section>
+
                 </div>
 
+                {/* Learning progress */}
                 {progress && isEnrolled && (
                     <section className="cd-panel">
+
                         <h2>Learning Progress</h2>
 
                         <h3>
@@ -440,24 +512,30 @@ function CourseDetails() {
                                 </button>
                             </div>
                         )}
+
                     </section>
                 )}
 
+                {/* Success message */}
                 {message && (
                     <p style={{ color: "green" }}>
                         {message}
                     </p>
                 )}
 
+                {/* General error message */}
                 {error && (
                     <p style={{ color: "red" }}>
                         {error}
                     </p>
                 )}
 
+                {/* Bottom banner */}
                 <div className="cd-bottom-banner">
+
                     <div>
                         <h2>Ready to continue learning?</h2>
+
                         <p>
                             Explore more courses and keep building your skills.
                         </p>
@@ -469,7 +547,9 @@ function CourseDetails() {
                     >
                         Browse Courses →
                     </Link>
+
                 </div>
+
             </main>
 
             <Footer />

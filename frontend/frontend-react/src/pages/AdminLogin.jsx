@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { loginStudent } from "../services/authService";
@@ -43,10 +43,16 @@ function AdminLogin() {
         <>
             <Navbar />
 
-            <main className="auth-page">
-                <div className="auth-card">
-                    <div className="auth-content">
+            <main className="admin-auth-page">
+                <div className="admin-auth-card">
+                    <div className="admin-auth-content">
+                        <span className="admin-auth-label">
+                            COURSEBUDDY ADMINISTRATION
+                        </span>
+
                         <h1>Administrator Login</h1>
+
+                        <p>Sign in to access the administration panel.</p>
 
                         <form onSubmit={handleSubmit}>
                             <label>Email</label>
@@ -67,16 +73,23 @@ function AdminLogin() {
                                 required
                             />
 
-                            {error && <p className="auth-error">{error}</p>}
+                            {error && (
+                                <p className="admin-auth-error">{error}</p>
+                            )}
 
                             <button
                                 type="submit"
-                                className="auth-button"
+                                className="admin-auth-button"
                                 disabled={loading}
                             >
                                 {loading ? "Logging in..." : "Login"}
                             </button>
                         </form>
+
+                        <p className="admin-auth-footer">
+                            New administrator?{" "}
+                            <Link to="/admin-register">Register here</Link>
+                        </p>
                     </div>
                 </div>
             </main>

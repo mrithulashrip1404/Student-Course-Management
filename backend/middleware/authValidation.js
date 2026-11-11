@@ -16,8 +16,10 @@ const validateRegistration = (req, res, next) => {
         });
     }
 
-    if (typeof email !== "string" ||
-        !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
+    if (
+        typeof email !== "string" ||
+        !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())
+    ) {
         return res.status(400).json({
             success: false,
             message: "Please enter a valid email"
@@ -28,6 +30,50 @@ const validateRegistration = (req, res, next) => {
         return res.status(400).json({
             success: false,
             message: "Password must be at least 6 characters"
+        });
+    }
+
+    next();
+};
+
+const validateAdminRegistration = (req, res, next) => {
+    const { name, email, password, registrationCode } = req.body;
+
+    if (!name || !email || !password || !registrationCode) {
+        return res.status(400).json({
+            success: false,
+            message: "Name, email, password, and registration code are required"
+        });
+    }
+
+    if (typeof name !== "string" || name.trim().length < 2) {
+        return res.status(400).json({
+            success: false,
+            message: "Name must contain at least 2 characters"
+        });
+    }
+
+    if (
+        typeof email !== "string" ||
+        !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())
+    ) {
+        return res.status(400).json({
+            success: false,
+            message: "Please enter a valid email"
+        });
+    }
+
+    if (typeof password !== "string" || password.length < 6) {
+        return res.status(400).json({
+            success: false,
+            message: "Password must be at least 6 characters"
+        });
+    }
+
+    if (typeof registrationCode !== "string") {
+        return res.status(400).json({
+            success: false,
+            message: "Invalid registration code"
         });
     }
 
@@ -52,5 +98,6 @@ const validateLogin = (req, res, next) => {
 
 module.exports = {
     validateRegistration,
+    validateAdminRegistration,
     validateLogin
 };
