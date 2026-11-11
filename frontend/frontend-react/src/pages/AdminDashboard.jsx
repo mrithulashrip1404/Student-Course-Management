@@ -6,6 +6,9 @@ import api from "../services/api";
 import { getAdmins, createAdmin } from "../services/adminService";
 
 function AdminDashboard() {
+    const admin = JSON.parse(localStorage.getItem("student") || "{}");
+    const adminName = admin.name || "Administrator";
+    const adminInitial = adminName.charAt(0).toUpperCase();
     const [admins, setAdmins] = useState([]);
     const [courses, setCourses] = useState([]);
     const [selectedCourse, setSelectedCourse] = useState("");
@@ -190,9 +193,9 @@ function AdminDashboard() {
                     </button>
 
                     <div className="admin-sidebar-bottom">
-                        <div className="admin-profile-icon">A</div>
+                        <div className="admin-profile-icon">{adminInitial}</div>
                         <div>
-                            <strong>Administrator</strong>
+                            <strong>{adminName}</strong>
                             <span>Platform Manager</span>
                         </div>
                     </div>
