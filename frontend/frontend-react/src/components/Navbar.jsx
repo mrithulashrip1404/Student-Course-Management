@@ -3,19 +3,20 @@ import { Link } from "react-router-dom";
 
 function Navbar() {
     return (
-        <nav className="navbar">
-            <Link to="/" className="navbar-brand">
-                ✦ CourseBuddy
+        <header className="home-header">
+            <Link to="/" className="home-logo">
+                <div className="logo-icon">✦</div>
+
+                <div>
+                    <h2>CourseBuddy</h2>
+                    <p>Learn. Grow. Succeed.</p>
+                </div>
             </Link>
 
-            <div className="navbar-links">
-                <Link to="/" className="navbar-link">
-                    Home
-                </Link>
+            <nav className="home-nav">
+                <Link to="/">Home</Link>
 
-                <Link to="/courses" className="navbar-link">
-                    Courses
-                </Link>
+                <Link to="/courses">Courses</Link>
 
                 <div className="navbar-dropdown">
                     <button
@@ -46,8 +47,12 @@ function Navbar() {
                         <Link to="/admin-register">Admin Register</Link>
                     </div>
                 </div>
-            </div>
-        </nav>
+
+                <Link className="register-button" to="/register">
+                    Get Started
+                </Link>
+            </nav>
+        </header>
     );
 }
 

@@ -1,27 +1,11 @@
+
 import { Link } from "react-router-dom";
+import Navbar from "../components/Navbar";
 
 function Home() {
     return (
         <div className="home-page">
-            <header className="home-header">
-                <div className="home-logo">
-                    <div className="logo-icon">✦</div>
-
-                    <div>
-                        <h2>CourseBuddy</h2>
-                        <p>Learn. Grow. Succeed.</p>
-                    </div>
-                </div>
-
-                <nav className="home-nav">
-                    <Link to="/">Home</Link>
-                    <Link to="/courses">Courses</Link>
-                    <Link to="/login">Login</Link>
-                    <Link className="register-button" to="/register">
-                        Get Started
-                    </Link>
-                </nav>
-            </header>
+            <Navbar />
 
             <main className="home-content">
                 <section className="home-hero">
