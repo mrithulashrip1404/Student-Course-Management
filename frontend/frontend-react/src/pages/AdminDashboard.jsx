@@ -1,4 +1,4 @@
-
+import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
@@ -177,6 +177,9 @@ function AdminDashboard() {
                     >
                         <span>▦</span> Dashboard
                     </button>
+		    <Link to="/manage-courses" className="admin-nav-item">
+		        <span>📚</span> Manage Courses
+		    </Link>
 
                     <button
                         className="admin-nav-item"

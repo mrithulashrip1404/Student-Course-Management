@@ -9,7 +9,8 @@ const emptyCourse = {
     courseCode: "",
     instructor: "",
     duration: "",
-    category: ""
+    category: "",
+    description: ""
 };
 
 function ManageCourses() {
@@ -48,7 +49,7 @@ function ManageCourses() {
                 setMessage("Course added successfully.");
             }
 
-            setForm(emptyCourse);
+            setForm({ ...emptyCourse });
             setEditingId(null);
         } catch (err) {
             setFormError(
@@ -64,7 +65,8 @@ function ManageCourses() {
             courseCode: course.courseCode || "",
             instructor: course.instructor || "",
             duration: course.duration || "",
-            category: course.category || ""
+            category: course.category || "",
+            description: course.description || ""
         });
 
         setEditingId(course.id);
@@ -83,10 +85,10 @@ function ManageCourses() {
         try {
             await deleteCourse(id);
             setMessage("Course deleted successfully.");
-	    setTimeout(() => setMessage(""), 3000);
+            setTimeout(() => setMessage(""), 3000);
 
             if (editingId === id) {
-                setForm(emptyCourse);
+                setForm({ ...emptyCourse });
                 setEditingId(null);
             }
         } catch (err) {
@@ -98,7 +100,7 @@ function ManageCourses() {
     }
 
     function handleCancel() {
-        setForm(emptyCourse);
+        setForm({ ...emptyCourse });
         setEditingId(null);
         setMessage("");
         setFormError("");
@@ -113,7 +115,9 @@ function ManageCourses() {
                 <p>Add, update and manage courses here.</p>
 
                 <section>
-                    <h2>{editingId !== null ? "Edit Course" : "Add Course"}</h2>
+                    <h2>
+                        {editingId !== null ? "Edit Course" : "Add Course"}
+                    </h2>
 
                     <form onSubmit={handleSubmit}>
                         <label>Course Name</label>
@@ -157,12 +161,27 @@ function ManageCourses() {
                             required
                         />
 
+                        <label>Description</label>
+                        <textarea
+                            name="description"
+                            value={form.description}
+                            onChange={handleChange}
+                            placeholder="Enter course description"
+                            rows={4}
+                            required
+                        />
+
                         <button type="submit">
-                            {editingId !== null ? "Update Course" : "Add Course"}
+                            {editingId !== null
+                                ? "Update Course"
+                                : "Add Course"}
                         </button>
 
                         {editingId !== null && (
-                            <button type="button" onClick={handleCancel}>
+                            <button
+                                type="button"
+                                onClick={handleCancel}
+                            >
                                 Cancel
                             </button>
                         )}
@@ -184,11 +203,17 @@ function ManageCourses() {
 
                     {!loading && !error && courses.map((course) => (
                         <article key={course.id}>
-                            <h3>{course.courseName || course.name}</h3>
+                            <h3>
+                                {course.courseName || course.name}
+                            </h3>
+
                             <p>Code: {course.courseCode || "N/A"}</p>
                             <p>Instructor: {course.instructor || "N/A"}</p>
                             <p>Duration: {course.duration || "N/A"}</p>
                             <p>Category: {course.category || "N/A"}</p>
+                            <p>
+                                Description: {course.description || "N/A"}
+                            </p>
 
                             <button
                                 type="button"
